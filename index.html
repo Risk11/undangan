@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>The Wedding of Iqbal & Vina</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Nunito+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-gold: #c5a059;
+        --primary-dark: #8a6d3b;
+        --text-color: #4a4a4a;
+        --bg-cream: #fdfbf7;
+        --glass: rgba(255, 255, 255, 0.9);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Nunito Sans", sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-cream);
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Cormorant Garamond", serif;
+        letter-spacing: 2px;
+      }
+      .script-font {
+        font-family: "Great Vibes", cursive;
+        text-transform: none;
+        font-weight: 400;
+      }
+
+      /* Loader */
+      #loader {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-cream);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: 0.5s;
+      }
+      .heart-beat {
+        font-size: 3rem;
+        color: var(--primary-gold);
+        animation: heartbeat 1.5s infinite;
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      /* Cover */
+      #cover {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url("GALERI/SYO_8841.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      #cover.open {
+        transform: translateY(-100%);
+      }
+
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        padding: 12px 25px;
+        border-radius: 50px;
+        display: flex;
+        gap: 25px;
+        z-index: 5000;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(197, 160, 89, 0.3);
+        opacity: 0;
+        transition: 1s;
+        visibility: hidden;
+      }
+      .navbar.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .nav-item {
+        color: var(--text-color);
+        font-size: 1.2rem;
+        transition: 0.3s;
+        text-decoration: none;
+      }
+      .nav-item.active {
+        color: var(--primary-gold);
+        transform: translateY(-3px);
+      }
+
+      /* Couple Section */
+      .couple-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 15px;
+        margin-top: 40px;
+      }
+      .couple-card {
+        flex: 1;
+        max-width: 160px;
+      }
+      .img-box {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        border: 2px solid var(--primary-gold);
+        padding: 5px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        background: white;
+      }
+      .img-box img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      /* Event Box */
+      .event-box {
+        background: white;
+        padding: 30px 20px;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        border-bottom: 4px solid var(--primary-gold);
+        margin-bottom: 20px;
+      }
+      #countdown {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 25px 0;
+      }
+      .cd-item {
+        background: var(--primary-gold);
+        color: white;
+        padding: 10px;
+        min-width: 60px;
+        border-radius: 10px;
+      }
+      .cd-item span {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      /* Gallery Slider */
+      .gallery-container {
+        position: relative;
+        overflow: hidden;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .gallery-slider {
+        display: flex;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gallery-page {
+        min-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 10px;
+      }
+      .gallery-page img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Amplop Digital */
+      .gift-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--primary-gold);
+        text-align: left;
+        margin: 15px auto;
+        max-width: 400px;
+      }
+      .acc-number {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+        margin: 10px 0;
+        color: #333;
+        font-weight: bold;
+      }
+
+      /* Buttons & Utility */
+      .btn-gold {
+        background: var(--primary-gold);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      section {
+        padding: 80px 20px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: 0.8s;
+      }
+      section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sakura {
+        position: fixed;
+        top: -10%;
+        z-index: 9998;
+        pointer-events: none;
+        animation: fall linear infinite;
+      }
+      @keyframes fall {
+        0% {
+          top: -10%;
+          transform: rotate(0deg);
+        }
+        100% {
+          top: 110%;
+          transform: rotate(360deg) translateX(50px);
+        }
+      }
+
+      .music-toggle {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        background: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 998;
+        cursor: pointer;
+        color: var(--primary-gold);
+        border: 1px solid var(--primary-gold);
+      }
+      .spin {
+        animation: spin 4s linear infinite;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        background: #fafafa;
+        font-family: inherit;
+      }
+    </style>
+  </head>
+
+  <body onload="finishLoad()">
+    <audio id="music" loop>
+      <source src="MUSIC VIDEO.mp3" type="audio/mp3" />
+    </audio>
+
+    <div class="music-toggle" onclick="toggleMusic()">
+      <i id="musicIcon" class="fas fa-music"></i>
+    </div>
+
+    <div id="loader">
+      <i class="fas fa-heart heart-beat"></i>
+      <p style="margin-top: 15px; letter-spacing: 3px; font-size: 0.8rem">
+        MENYIAPKAN KEBAHAGIAAN...
+      </p>
+    </div>
+
+    <div id="cover">
+      <p style="letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 10px">
+        THE WEDDING OF
+      </p>
+      <h1
+        class="script-font"
+        style="font-size: 4.5rem; margin-bottom: 20px; color: #f0e68c"
+      >
+        Iqbal & Vina
+      </h1>
+      <p style="font-size: 0.85rem; margin-bottom: 5px; opacity: 0.9">
+        Kepada Bapak/Ibu/Saudara/i:
+      </p>
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.2);
+          padding: 12px 30px;
+          border-radius: 50px;
+          margin: 15px 0;
+          backdrop-filter: blur(5px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        "
+      >
+        <strong id="guest-name-display" style="font-size: 1.2rem"
+          >Tamu Undangan</strong
+        >
+      </div>
+      <button class="btn-gold" onclick="openInvitation()">
+        <i class="fas fa-envelope-open"></i> Buka Undangan
+      </button>
+    </div>
+
+    <nav class="navbar" id="navbar">
+      <a href="#home" class="nav-item"><i class="fas fa-home"></i></a>
+      <a href="#couple" class="nav-item"><i class="fas fa-heart"></i></a>
+      <a href="#event" class="nav-item"><i class="fas fa-calendar-alt"></i></a>
+      <a href="#gallery" class="nav-item"><i class="fas fa-images"></i></a>
+    </nav>
+
+    <header
+      id="home"
+      style="
+        height: 100vh;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url(&quot;GALERI/SYO_8841.jpg&quot;) center/cover fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+      "
+    >
+      <div style="padding: 20px">
+        <p style="letter-spacing: 8px; font-size: 0.9rem; margin-bottom: 20px">
+          WE ARE GETTING MARRIED
+        </p>
+        <h1
+          class="script-font"
+          style="font-size: 5.5rem; color: var(--primary-gold)"
+        >
+          Iqbal & Vina
+        </h1>
+        <p style="font-size: 1.4rem; letter-spacing: 5px; margin-top: 10px">
+          29 . 03 . 2026
+        </p>
+      </div>
+    </header>
+
+    <section id="couple">
+      <h2
+        class="script-font"
+        style="
+          font-size: 3.5rem;
+          color: var(--primary-gold);
+          margin-bottom: 20px;
+        "
+      >
+        Mempelai
+      </h2>
+      <div class="couple-container">
+        <div class="couple-card">
+          <div class="img-box">
+            <img src="GALERI/SYO_8871.jpg" alt="Iqbal" />
+          </div>
+          <h2 class="script-font">Muhammad Iqbal</h2>
+          <p>Putra dari Bpk. Zulkifli <br />& Ibu Ratna Dewi</p>
+        </div>
+        <div
+          class="script-font"
+          style="
+            font-size: 2.2rem;
+            align-self: center;
+            color: var(--primary-gold);
+            margin-top: -40px;
+          "
+        >
+          &
+        </div>
+        <div class="couple-card">
+          <div class="img-box">
+            <img src="GALERI/SYO_8724.jpg" alt="Vina" />
+          </div>
+          <h2 class="script-font">Rama Alvina</h2>
+          <p>Putri dari Bpk. Agus Junaidi (EDI) <br />& Ibu Ilis Sumarni</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="event">
+      <div class="event-box">
+        <h2
+          class="script-font"
+          style="font-size: 3rem; color: var(--primary-gold)"
+        >
+          Save The Date
+        </h2>
+        <div id="countdown">
+          <div class="cd-item">
+            <span id="days">00</span><small>Hari</small>
+          </div>
+          <div class="cd-item">
+            <span id="hours">00</span><small>Jam</small>
+          </div>
+          <div class="cd-item">
+            <span id="mins">00</span><small>Menit</small>
+          </div>
+          <div class="cd-item">
+            <span id="secs">00</span><small>Detik</small>
+          </div>
+        </div>
+        <h3 style="margin-bottom: 5px">Minggu, 29 Maret 2026</h3>
+        <p>08.00 WIB - Selesai</p>
+        <hr style="margin: 20px auto; width: 50px; opacity: 0.1" />
+        <p style="font-size: 0.85rem; margin-bottom: 25px">
+          <strong>Lubuk Pandan</strong><br />Kec. 2 X 11 Enam Lingkung, Kab.
+          Padang Pariaman
+        </p>
+        <div
+          style="
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            width: 140px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+          "
+        >
+          <p style="font-size: 0.6rem; color: #999; margin-bottom: 5px">
+            Scan Lokasi
+          </p>
+          <img id="qrCode" src="" alt="QR Location" style="width: 100%" />
+        </div>
+        <button onclick="navigasi()" class="btn-gold">
+          <i class="fas fa-location-arrow"></i> Tinjau Lokasi
+        </button>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2
+        class="script-font"
+        style="font-size: 3rem; color: var(--primary-gold); margin-bottom: 25px"
+      >
+        Galeri Bahagia
+      </h2>
+      <div class="gallery-container">
+        <div class="gallery-slider" id="slider">
+          <div class="gallery-page">
+            <img src="GALERI/SYO_8841.jpg" /><img
+              src="GALERI/SYO_8871.jpg"
+            /><img src="GALERI/SYO_8724.jpg" />
+            <img src="GALERI/SYO_9109.jpg" /><img
+              src="GALERI/SYO_8841.jpg"
+            /><img src="GALERI/SYO_8871.jpg" />
+            <img src="GALERI/SYO_8724.jpg" /><img
+              src="GALERI/SYO_9109.jpg"
+            /><img src="GALERI/SYO_8841.jpg" />
+          </div>
+          <div class="gallery-page">
+            <img src="GALERI/SYO_8724.jpg" /><img
+              src="GALERI/SYO_9109.jpg"
+            /><img src="GALERI/SYO_8841.jpg" />
+            <img src="GALERI/SYO_8871.jpg" /><img
+              src="GALERI/SYO_8724.jpg"
+            /><img src="GALERI/SYO_9109.jpg" />
+            <img src="GALERI/SYO_8841.jpg" /><img
+              src="GALERI/SYO_8871.jpg"
+            /><img src="GALERI/SYO_8724.jpg" />
+          </div>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          margin-top: 15px;
+        "
+      >
+        <button
+          onclick="moveSlider(-1)"
+          class="btn-gold"
+          style="padding: 8px 18px; font-size: 0.6rem"
+        >
+          <i class="fas fa-chevron-left"></i> PREV
+        </button>
+        <button
+          onclick="moveSlider(1)"
+          class="btn-gold"
+          style="padding: 8px 18px; font-size: 0.6rem"
+        >
+          NEXT <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <section id="gift">
+      <h2
+        class="script-font"
+        style="
+          font-size: 3.2rem;
+          color: var(--primary-gold);
+          margin-bottom: 20px;
+        "
+      >
+        Amplop Digital
+      </h2>
+      <div class="gift-card">
+        <div style="font-weight: bold; color: var(--primary-dark)">
+          BANK SYARIAH INDONESIA <i class="fas fa-university"></i>
+        </div>
+        <p id="rek1" class="acc-number">7108906795</p>
+        <p style="font-size: 0.9rem; color: #888">a.n Muhammad Iqbal</p>
+        <button
+          onclick="copyRek('rek1')"
+          class="btn-gold"
+          style="padding: 6px 15px; font-size: 0.6rem; margin-top: 10px"
+        >
+          SALIN NO. REK
+        </button>
+      </div>
+    </section>
+
+    <section id="rsvp">
+      <div
+        class="event-box"
+        style="text-align: left; max-width: 500px; margin: 0 auto"
+      >
+        <h2
+          class="script-font"
+          style="
+            text-align: center;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+          "
+        >
+          Kehadiran
+        </h2>
+        <form id="formRSVP">
+          <label style="font-size: 0.8rem; font-weight: 600"
+            >Nama Lengkap</label
+          >
+          <input type="text" id="nama" placeholder="Masukkan nama" required />
+          <label
+            style="
+              font-size: 0.8rem;
+              font-weight: 600;
+              display: block;
+              margin-top: 15px;
+            "
+            >Konfirmasi Kehadiran</label
+          >
+          <select id="status">
+            <option value="Hadir">Saya akan Hadir</option>
+            <option value="Tidak Hadir">Berhalangan Hadir</option>
+          </select>
+          <label
+            style="
+              font-size: 0.8rem;
+              font-weight: 600;
+              display: block;
+              margin-top: 15px;
+            "
+            >Pesan/Doa Singkat</label
+          >
+          <textarea id="pesan" rows="3" placeholder="Tulis doa..."></textarea>
+          <button
+            type="button"
+            onclick="kirimRSVP()"
+            class="btn-gold"
+            style="width: 100%; margin-top: 20px"
+          >
+            <i class="fab fa-whatsapp"></i> Kirim Konfirmasi ke WA
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer
+      style="
+        padding: 60px 20px;
+        background: #111;
+        text-align: center;
+        color: #555;
+      "
+    >
+      <h2
+        class="script-font"
+        style="color: var(--primary-gold); font-size: 2.5rem"
+      >
+        Iqbal & Vina
+      </h2>
+      <p style="font-size: 0.6rem; letter-spacing: 2px; margin-top: 10px">
+        SAMPAI JUMPA DI HARI BAHAGIA KAMI
+      </p>
+    </footer>
+
+    <script>
+      const music = document.getElementById("music");
+      const targetLat = "-0.610294";
+      const targetLon = "100.286265";
+      const nomorWA = "6282171012743";
+      let currentSlide = 0;
+
+      window.onload = () => {
+        window.scrollTo(0, 0);
+        document.body.style.overflowY = "hidden";
+        const guest = new URLSearchParams(window.location.search).get("to");
+        if (guest)
+          document.getElementById("guest-name-display").innerText = guest;
+
+        const mapsUrl = `google.navigation:q=${targetLat},${targetLon}`;
+        document.getElementById("qrCode").src =
+          `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(mapsUrl)}`;
+
+        setTimeout(() => {
+          document.getElementById("loader").style.opacity = "0";
+          setTimeout(
+            () => (document.getElementById("loader").style.display = "none"),
+            800,
+          );
+        }, 1000);
+      };
+
+      function openInvitation() {
+        document.getElementById("cover").classList.add("open");
+        document.getElementById("navbar").classList.add("show");
+        document.body.style.overflowY = "auto";
+        window.location.hash = "#home";
+
+        // Memastikan musik mulai dari detik 97
+        /* music.currentTime = 97; */
+        music.play();
+
+        document.querySelector(".music-toggle").classList.add("spin");
+        createSakura();
+      }
+
+      function toggleMusic() {
+        const icon = document.getElementById("musicIcon");
+        const btn = document.querySelector(".music-toggle");
+        if (music.paused) {
+          music.play();
+          btn.classList.add("spin");
+          icon.className = "fas fa-music";
+        } else {
+          music.pause();
+          btn.classList.remove("spin");
+          icon.className = "fas fa-play";
+        }
+      }
+
+      function navigasi() {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${targetLat},${targetLon}`;
+        window.open(url, "_blank");
+      }
+
+      function copyRek(id) {
+        const rek = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(rek);
+        alert("Nomor rekening disalin!");
+      }
+
+      function moveSlider(dir) {
+        const slider = document.getElementById("slider");
+        currentSlide = (currentSlide + dir + 2) % 2;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function kirimRSVP() {
+        const nama = document.getElementById("nama").value;
+        const status = document.getElementById("status").value;
+        const pesan = document.getElementById("pesan").value;
+        if (!nama) {
+          alert("Harap masukkan nama Anda.");
+          return;
+        }
+        const teks = `Halo Iqbal & Vina,\n\nSaya *${nama}* ingin mengonfirmasi: *${status}*.\n\n*Pesan/Doa:* ${pesan || "-"}`;
+        window.open(
+          `https://api.whatsapp.com/send?phone=${nomorWA}&text=${encodeURIComponent(teks)}`,
+          "_blank",
+        );
+      }
+
+      const targetDate = new Date("March 29, 2026 08:00:00").getTime();
+      setInterval(() => {
+        const diff = targetDate - new Date().getTime();
+        if (diff > 0) {
+          document.getElementById("days").innerText = Math.floor(
+            diff / 86400000,
+          )
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("hours").innerText = Math.floor(
+            (diff % 86400000) / 3600000,
+          )
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("mins").innerText = Math.floor(
+            (diff % 3600000) / 60000,
+          )
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("secs").innerText = Math.floor(
+            (diff % 60000) / 1000,
+          )
+            .toString()
+            .padStart(2, "0");
+        }
+      }, 1000);
+
+      function createSakura() {
+        setInterval(() => {
+          const s = document.createElement("div");
+          s.classList.add("sakura");
+          s.innerHTML = "🌸";
+          s.style.left = Math.random() * 100 + "vw";
+          s.style.animationDuration = Math.random() * 3 + 4 + "s";
+          document.body.appendChild(s);
+          setTimeout(() => s.remove(), 5000);
+        }, 800);
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              const id = e.target.getAttribute("id");
+              document.querySelectorAll(".nav-item").forEach((l) => {
+                l.classList.toggle(
+                  "active",
+                  l.getAttribute("href") === `#${id}`,
+                );
+              });
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      document.querySelectorAll("section").forEach((s) => observer.observe(s));
+    </script>
+  </body>
+</html>
