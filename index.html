@@ -1240,9 +1240,9 @@
 
       function openMap(type) {
         const c = type === "akad" ? locAkad : locResepsi;
-        window.open(
-          `http://googleusercontent.com/maps.google.com/8{c.lat},${c.lon}`,
-        );
+        const url = `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lon}`;
+
+        window.open(url, "_blank");
       }
 
       function copyRek(id) {
